@@ -27,7 +27,7 @@ public:
 class Failure : public DroneOperations {
 public:
     void execute () override {
-        cout << "The drone has encountered an unforseen failure." << endl;
+        cout << "The drone system has encountered an error." << endl;
     }
 };
 
@@ -104,12 +104,17 @@ int main() {
     map<int, map<int, int>>graph;
     // source   dest, dist
     readGraphFromFile("graph.txt", graph);
-    
     int source, destination;
     cout << "Input Source Location Integer: ";
     cin >> source;
     cout << "Input Destination Location Integer: ";
     cin >> destination;
+    Failure failure;
+    if (source < 1 || source > 100 || destination < 1 || destination > 100) {
+        cerr << "Error: Positions must be within 1 - 100, inclusive." << endl;    
+        failure.execute();
+        return 1;
+    }
     vector<int>path;
     TakeOff takeOffOperation;
     MissionPlanning getPath;
